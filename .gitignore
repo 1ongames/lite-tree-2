@@ -1,0 +1,7 @@
+node_modules/
+database/*.db
+.env
+publicConfig.json
+serverConfig.json
+stringConfig.json
+devConfig.json
