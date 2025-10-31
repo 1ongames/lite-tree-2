@@ -1,3 +1,8 @@
 {
-    
+    "wiki_name": "한빛위키",
+    "wiki_FrontPage": "한빛위키:현관",
+    "theme_color": "#689fff",
+    "logo_text": "한빛위키",
+
+    "site_notice": "예시"
 }

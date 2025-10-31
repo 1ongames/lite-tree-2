@@ -1,3 +1,9 @@
 {
-    "version": "0.1.0"
+    "version": {
+        "master": "0.1.0",
+        "FrontEnd": null,
+        "BackEnd": "0.1.0"
+    },
+    "branch": "master",
+    "check_update": "true"
 }

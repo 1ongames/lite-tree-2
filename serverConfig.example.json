@@ -1,0 +1,6 @@
+{
+    "server_port": 3000,
+    "use_logging": true,
+
+    "server_name": "https://hanbit.cc"
+}
