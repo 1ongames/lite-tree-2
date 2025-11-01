@@ -1,0 +1,410 @@
+{% set requestable = page.data.editable === true and page.data.edit_acl_message and page.viewName !== 'notfound' %}
+
+<script src="/skins/{{ skin }}/js/main.js"></script>
+
+<style>
+    @import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css";
+    @import "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css";
+
+    @import "/skins/{{ skin }}/css/main.css";
+    @import "/skins/{{ skin }}/css/sub.css";
+    @import "/skins/{{ skin }}/css/dark.css";
+</style>
+
+<div class="central" :class="{ 'header-fixed': $store.state.localConfig['central.fixed_navbar'], 'smooth-scroll': $store.state.localConfig['central.smooth_scroll'], 'dark_blue_link': $store.state.localConfig['central.dark_blue_link'] }">
+    <!-- 본 스킨은 원 저작자와 협의되어 포팅된 스킨이며, 무단으로 사용할 경우 법적 책임을 물을 수 있습니다. -->
+    <div class="header-root">
+        <div class="header">
+            <a class="header-logo" href="/">{{ config.logo_text }}</a>
+            <ul class="header-menu">
+                <li class="header-menu-item">
+                    <a class="header-menu-link" href="/RecentChanges">
+                        <i class="fa-solid fa-compass"></i>
+                        <div class="header-menu-link-name">최근 변경</div>
+                    </a>
+                </li>
+                <li class="header-menu-item">
+                    <a class="header-menu-link" href="/RecentDiscuss">
+                        <i class="fa-solid fa-comment-dots"></i>
+                        <div class="header-menu-link-name">최근 토론</div>
+                    </a>
+                </li>
+                <li class="header-menu-item" id="other_cel">
+                    <a class="header-menu-link" @click="$store.skin.ringo_opening('other_cel_in')">
+                        <i class="fa-solid fa-cogs"></i>
+                        <div class="header-menu-link-name">특수 기능</div><i class="fa-solid fa-caret-down"></i>
+                    </a>
+                    <div class="header-menu-dropdown" id="other_cel_in" style="visibility: hidden; transform: translateY(6px);">
+                        <a class="header-menu-dropdown-link" href="/Upload">
+                            <i class="fa-solid fa-upload"></i>파일 올리기
+                        </a>
+                        <div class="header-menu-dropdown-hr"></div>
+                        <a class="header-menu-dropdown-link" href="/NeededPages">
+                            <i class="fa-solid fa-file-circle-xmark"></i>작성이 필요한 문서
+                        </a>
+                        <a class="header-menu-dropdown-link" href="/OrphanedPages">
+                            <i class="fa-solid fa-file-circle-exclamation"></i>고립된 문서
+                        </a>
+                        <a class="header-menu-dropdown-link" href="/OrphanedCategories">
+                            <i class="fa-solid fa-arrow-down-up-lock"></i>고립된 분류
+                        </a>
+                        <a class="header-menu-dropdown-link" href="/UncategorizedPages">
+                            <i class="fa-solid fa-file-circle-exclamation"></i>분류가 되지 않은 문서
+                        </a>
+                        <a class="header-menu-dropdown-link" href="/OldPages">
+                            <i class="fa-solid fa-hourglass-end"></i>편집된 지 오래된 문서
+                        </a>
+                        <a class="header-menu-dropdown-link" href="/ShortestPages">
+                            <i class="fa-solid fa-arrow-down-wide-short"></i>내용이 짧은 문서
+                        </a>
+                        <a class="header-menu-dropdown-link" href="/LongestPages">
+                            <i class="fa-solid fa-arrow-down-short-wide"></i>내용이 긴 문서
+                        </a>
+                        <a class="header-menu-dropdown-link" href="/BlockHistory">
+                            <i class="fa-solid fa-scissors"></i>차단 내역
+                        </a>
+                        <a class="header-menu-dropdown-link" href="/RandomPage">
+                            <i class="fa-solid fa-shuffle"></i>RandomPage
+                        </a>
+                        <a class="header-menu-dropdown-link" href="/License">
+                            <i class="fa-solid fa-copyright"></i>라이선스
+                        </a>
+                        {% if session.menus.length %}
+                            <div class="header-menu-dropdown-hr"></div>
+                            {% for m in session.menus %}
+                            <a class="header-menu-dropdown-link" href="{{ m.l }}">
+                                <i class="fa-solid fa-user-tie"></i>{{ m.t }}
+                            </a>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </li>
+            </ul>
+            <div class="header-menu-right">
+                <div class="header-menu-item" id="user_cel">
+                    <a class="header-menu-link" @click="$store.skin.ringo_opening('user_cel_in')">
+                        {% if session.gravatar_url %}
+                            <img class="user-gravatar" src="{{ session.gravatar_url }}">
+                        {% else %}
+                            <i class="fa-solid fa-user-large"></i>
+                        {% endif %}
+                    </a>
+                    <div class="header-menu-dropdown" id="user_cel_in" style="visibility: hidden; transform: translateY(6px);">
+                        <div class="header-menu-user-info">
+                            {% if session.account.type === UserTypes.Account %}
+                                <div class="header-menu-user-auth">
+                                    사용자
+                                </div>
+                                <div class="header-menu-user-name">
+                                    {{ session.account.name }}
+                                </div>
+                            {% else %}
+                                <div class="header-menu-user-auth">
+                                    IP 사용자
+                                </div>
+                                <div class="header-menu-user-name">
+                                    {{ session.account.name }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="header-menu-dropdown-hr"></div>
+                        <a class="header-menu-dropdown-link" href="#" @click.prevent="$store.state.openSettingModal">
+                            <i class="fa-solid fa-sliders"></i>설정
+                        </a>
+                        <a class="header-menu-dropdown-link" href="#" x-show="$store.state.currentTheme === 'light'" @click.prevent="$store.state.setLocalConfig('wiki.theme', 'dark')"><i class="fa-solid fa-moon"></i>다크 모드로 전환</a>
+                        <a class="header-menu-dropdown-link" href="#" x-show="$store.state.currentTheme === 'dark'" @click.prevent="$store.state.setLocalConfig('wiki.theme', 'light')"><i class="fa-regular fa-sun"></i>라이트 모드로 전환</a>
+                        <div class="header-menu-dropdown-hr"></div>
+                        {% if session.account.type === UserTypes.Account %}
+                            <a class="header-menu-dropdown-link" href="/member/mypage">
+                                <i class="fa-solid fa-user"></i>내 정보
+                            </a>
+                            <a class="header-menu-dropdown-link" :href="doc_action_link(user_doc($store.state.session.account.name), 'w')">
+                                <i class="fa-solid fa-address-card"></i>내 사용자 문서
+                            </a>
+                            <a class="header-menu-dropdown-link" href="/member/starred_documents">
+                                <i class="fa-solid fa-file-invoice"></i>내 문서함
+                            </a>
+                            <div class="header-menu-dropdown-hr"></div>
+                        {% endif %}
+                        {% if session.account.uuid %}
+                            <a class="header-menu-dropdown-link" :href="contribution_link($store.state.session.account.uuid)">
+                                <i class="fa-solid fa-paste"></i>내 문서 기여 목록
+                            </a>
+                            <a class="header-menu-dropdown-link" :href="contribution_link_discuss($store.state.session.account.uuid)">
+                                <i class="fa-solid fa-comments"></i>내 토론 기여 목록
+                            </a>
+                            <a class="header-menu-dropdown-link" :href="contribution_link_edit_request($store.state.session.account.uuid)">
+                                <i class="fa-solid fa-user-pen"></i>내 편집 요청 기여 목록
+                            </a>
+                            <div class="header-menu-dropdown-hr"></div>
+                        {% endif %}
+                        {% if session.account.type === UserTypes.Account %}
+                            <a class="header-menu-dropdown-link" href="/member/logout">
+                                <i class="fa-solid fa-right-to-bracket"></i>로그아웃
+                            </a>
+                        {% else %}
+                            <a class="header-menu-dropdown-link" href="/member/login">
+                                <i class="fa-solid fa-user"></i>로그인
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="header-menu-item" x-cloak x-show="$store.state.session.user_document_discuss" id="alarm_cel">
+                    <a class="header-menu-link" @click="$store.skin.ringo_opening('alarm_cel_in')">
+                        <i class="alarm-on fa-solid fa-bell"></i>
+                    </a>
+                    <div class="header-menu-dropdown" id="alarm_cel_in" style="visibility: hidden; transform: translateY(6px);">
+                        <a class="header-menu-alarm-info" href="{{ doc_action_link(user_doc(session.account.name), 'discuss') }}">
+                            <i class="alarm-on fa-solid fa-bell"></i>
+                            <b>진행 중인 사용자 토론이 있습니다.<br>
+                            <small>여기를 눌러 알림 페이지로 이동합니다.</small></b>
+                        </a>
+                    </div>
+                </div>
+                <div class="wide-ui">
+                    {% -include('./layouts/searchForm') %}
+                </div>
+            </div>
+        </div>
+        <div class="phone-ui">
+            {% -include('./layouts/searchForm') %}
+        </div>
+    </div>
+    <div class="main-root" :class="{ 'main-side-right': $store.state.localConfig['central.sidebar'] === 'right' }">
+        <div class="main-content">
+            {% if(config.sitenotice) {% }
+                <div class="header-top-notice-bg">
+                    <div class="header-top-notice">
+                        <i class="fa-solid fa-bullhorn"></i>
+                        {% -config.sitenotice %}
+                    </div>
+                </div>
+            {% } %}
+            <div class="central-main" id="content">
+                <div class="main-header">
+                    <div class="title">
+                        {% if(page.data.document && page.viewName !== 'error') {% }
+                            <h1 class="main-title">
+                                <a class="main-title-a" href="{% =doc_action_link(page.data.document, 'w') %}">
+                                    {% if(page.data.document.forceShowNamespace !== false) {% }<span class="main-title-ns">{% =page.data.document.namespace %}</span>:{% } %}{% =page.data.document.title %}
+                                </a>
+                                {% if(page.viewName === 'edit_edit_request' || page.viewName === 'edit_request') {% }
+                                    <sub>(편집 요청)</sub>
+                                {% } else if(page.viewName === 'edit' && page.data.body.section) {% }
+                                    <sub>(r{% =page.data.body.baserev %} 문단 편집)</sub>
+                                {% } else if(page.viewName === 'edit' && page.data.body.baserev === '0') {% }
+                                    <sub>(새 문서 생성)</sub>
+                                {% } else if(page.viewName === 'edit') {% }
+                                    <sub>(r{% =page.data.body.baserev %} 편집)</sub>
+                                {% } else if(page.viewName === 'history') {% }
+                                    <sub>(역사)</sub>
+                                {% } else if(page.viewName === 'backlink') {% }
+                                    <sub>(역링크)</sub>
+                                {% } else if(page.viewName === 'move') {% }
+                                    <sub>(이동)</sub>
+                                {% } else if(page.viewName === 'delete') {% }
+                                    <sub>(삭제)</sub>
+                                {% } else if(page.viewName === 'acl') {% }
+                                    <sub>(ACL)</sub>
+                                {% } else if(page.viewName === 'thread') {% }
+                                    <sub>(토론)</sub>
+                                {% } else if(page.viewName === 'thread_list') {% }
+                                    <sub>(토론 목록)</sub>
+                                {% } else if(page.viewName === 'thread_list_close') {% }
+                                    <sub>(닫힌 토론)</sub>
+                                {% } else if(page.viewName === 'edit_request_close') {% }
+                                    <sub>(닫힌 편집 요청)</sub>
+                                {% } else if(page.viewName === 'diff') {% }
+                                    <sub>(비교)</sub>
+                                {% } else if(page.viewName === 'revert' && page.data.rev) {% }
+                                    <sub>(r{% =page.data.rev %}로 되돌리기)</sub>
+                                {% } else if(page.viewName === 'raw' && page.data.rev) {% }
+                                    <sub>(r{% =page.data.rev %} RAW)</sub>
+                                {% } else if(page.viewName === 'blame' && page.data.rev) {% }
+                                    <sub>(r{% =page.data.rev %} Blame)</sub>
+                                {% } else if(page.viewName === 'wiki' && page.data.rev) {% }
+                                    <sub>(r{% =page.data.rev %})</sub>
+                                {% } %}
+                            </h1>
+                            {% } else {% }
+                                <h1 class="main-title main-title-a">{% =page.title %}</h1>
+                        {% } %}
+                        {% if(page.viewName === 'wiki' && page.data.date) {% }
+                            <div class="last-edit">
+                                {% const timeTag = getFullDateTag(page.data.date); %}
+                                {% if(page.data.rev) {% }
+                                    해당 리비전 수정 시각: {% -timeTag %}</li>
+                                {% } else {% }
+                                    최근 수정 시각: {% -timeTag %}</li>
+                                {% } %}
+                            </div>
+                        {% } %}
+                    </div>
+                    {% -include('./layouts/contentTool') %}
+                </div>
+                <div style="text-align: center;">
+                    {% -config.ad_top_html %}
+                </div>
+                {% if(page.data.edit_acl_message) {% }
+                    <div class="wiki_notice wiki_notice-x" id="red_bg" x-cloak x-show="$store.skin.isShowACLMessage">
+                        <div>
+                            <div class="wiki_notice_cate" id="red">권한 부족</div>
+                                <span>{% -page.data.edit_acl_message %}</span>
+                                {% if(requestable) {% }<span>{% if(page.data.edit_acl_message.includes('<br>')) {% }<br>{% } %} 대신 <a href="{% =doc_action_link(page.data.document, 'new_edit_request') %}">편집 요청</a>을 생성할 수 있습니다.</span>{% } %}
+                        </div>
+                        <div>
+                            <a @click.prevent="$store.skin.hideEditMessage()" href="#" class="wiki_notice_close">
+                                <i class="fa-solid fa-xmark"></i>
+                            </a>
+                        </div>
+                    </div>
+                {% } %}
+                <div class="wiki_notice wiki_notice-x" id="orange_bg" x-cloak x-show="$store.state.session.user_document_discuss && $store.state.localConfig['wiki.hide_user_document_discuss'] !== $store.state.session.user_document_discuss">
+                    <div>
+                        <div class="wiki_notice_cate" id="orange">알림</div>
+                            현재 진행 중인 <a href="{% =doc_action_link(user_doc(session.account.name), 'discuss') %}">사용자 토론</a>이 있습니다.
+                    </div>
+                    <div>
+                        <a @click.prevent="$store.state.setLocalConfig('wiki.hide_user_document_discuss', $store.state.session.user_document_discuss)" href="#" class="wiki_notice_close">
+                        <i class="fa-solid fa-xmark"></i>
+                        </a>
+                    </div>
+                </div>
+                {% if(page.viewName === 'notfound' && page.data.document.namespace === '문서') {% }
+                    <div class="thetree-alert" style="line-height:2.1rem;">
+                        <div class="thetree-alert-content">
+                            '{% =page.data.document.title %}'을(를) 검색하시겠습니까?
+                            <div class="float-right"><a class="thetree-square-button" href="/Search?q={% =encodeURIComponent(page.data.document.title) %}">검색</a></div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                {% } %}
+                <div id="content-style" class="content-style">
+                    <div id="content-body" class="content-body" :class="$store.state.currentTheme === 'dark' ? 'thetree-dark-mode' : 'thetree-white-mode'">
+                        {% -contentHtml %}
+                        {% if(page.viewName === 'wiki' && page.data.date) {% }
+                            <div class="cc-info">
+                                {% -copyright_text %}
+                            </div>
+                        {% } %}
+                    </div>
+                </div>
+                {% if(page.viewName === 'license') {% }
+                    <div class="license-central">
+                        <h2>Central</h2>
+                        <p>v4.2</p>
+                        <h3>라이선스</h3>
+                        <p>© <a href="https://gwangtori.com">Gwangtori</a>, <a href="https://github.com/wjdgustn">hyonsu</a>. all rights reserved.</p>
+                        <ul>
+                            <li>이 스킨에서 별도로 명시하지 않은 모든 부분은 Gwangtori가 모든 권리를 보유합니다.</li>
+                            <li>오픈 소스가 아닌 디자인을 무단으로 도용하는 행동은 저작권 위반이며 법적 책임을 물 수 있습니다.</li>
+                            <li>사용을 허가되지 않은 위키에서 사용은 절대 금합니다. (<a href="https://daol.cc/w/위키/스킨/Central#사용%20위키">허가된 위키 확인하기</a>)</li>
+                            <li>Git에 접근할 수 있는 권한을 소유하고 있다고 해도 파생 버전을 만드는 것은 금지입니다.</li>
+                        </ul>
+                        <h3>기여자 목록</h3>
+                        <ul>
+                            <li><a href="https://github.com/Gwangtori">Gwangtori</a> (me@gwangtori.com)</li>
+                            <li><a href="https://github.com/wjdgustn">hyonsu</a> (admin@hyonsu.com)</li>
+                            <li><a href="https://github.com/Astro-CQM">ASTRO</a> (saturn@astro.win)</li>
+                            <li><a href="https://github.com/kepitrion">Kepitrion</a> (kepitrion@proton.me)</li>
+                        </ul>
+                        <h3>사용된 외부 프로젝트</h3>
+                        <ul>
+                            <li><a href="https://github.com/FortAwesome/Font-Awesome">Font Awesome</a></li>
+                            <li><a href="https://github.com/orioncactus/pretendard">Pretendard</a></li>
+                            <li><a href="https://shinyks.com/2024/04/javascript/자바스크립트-드롭다운-메뉴-목록-만들기/">자바스크립트 드롭다운 메뉴 목록 만들기</a></li>
+                            <li><a href="https://github.com/openNAMU/openNAMU/tree/beta/views/ringo">Ringo</a></li>
+                        </ul>
+                    </div>
+                {% } %}
+            </div>
+        </div>
+        <div class="main-side" id="sidebar" :class="{ 'main-side-hide': $store.state.localConfig['central.sidebar'] === 'hide'}">
+            <div class="sidebar sidebar-0" :class="{ 'sidebar-0-hide': $store.state.localConfig['central.sidebar-0'] }">
+                <a class="sidebar-title" href="/member/mypage"><i class="fa-solid fa-user-large"></i> 사용자 <i class="fa-solid fa-angle-right"></i></a>
+                <div class="sidebar-0-account">
+                    <div class="sidebar-0-profile">
+                        {% if(session.gravatar_url) {% }
+                            <img class="user-gravatar" src="{% =session.gravatar_url %}">
+                        {% } else {% }
+                            <i class="fa-solid fa-circle-user"></i>
+                        {% } %}
+                    </div>
+                    <div class="sidebar-0-name">
+                        <div id="sidebar-0-name1">
+                            {% =session.account.name %}
+                        </div>
+                        {% if(session.account.type === UserTypes.Account) {% }
+                            <div id="sidebar-0-name2">
+                                사용자
+                            </div>
+                        {% } else {% }
+                            <div id="sidebar-0-name2">
+                                IP 사용자
+                            </div>
+                        {% } %}
+                    </div>
+                </div>
+                {% if(session.account.type === UserTypes.Account) {% }
+                    <a class="sidebar-0-item" href="/member/logout">
+                        <i class="fa-solid fa-user-minus"></i> 로그아웃
+                    </a>
+                {% } else {% }
+                    <a class="sidebar-0-item" href="/member/login">
+                        <i class="fa-solid fa-user-check"></i> 로그인
+                    </a>
+                    <a class="sidebar-0-item" href="/member/signup">
+                        <i class="fa-solid fa-user-plus"></i> 회원가입
+                    </a>
+                {% } %}
+            </div>
+            <div class="sidebar sidebar-1">
+                <a class="sidebar-title" href="/RecentChanges"><i class="fa-solid fa-compass"></i> 최근 변경 <i class="fa-solid fa-angle-right"></i></a>
+                <ul class="sidebar-list" id="sidebar-1-list">
+                    <div x-show="$store.state.recent.length === 0">
+                        <li id="sidebar-1-item">[불러오는 중...]</li>
+                    </div>
+                    <div x-show="$store.state.recent.length > 0">
+                        <template x-for="(r,i) in $store.state.recent.slice(0, 12)" :key="i">
+                            <li>
+                                <a class="recent-item" :href="doc_action_link(r.document, 'w')" @click="$store.state.aClickHandler">
+                                    <span class="recent-time" x-html="getFullDateTag(new Date(r.date * 1000), 'relative')"></span>
+                                    <span class="recent-title" x-text="r.document"></span>
+                                </a>
+                            </li>
+                        </template>
+                    </div>
+                </ul>
+            </div>
+            <div class="sidebar-sticky">
+                <div class="sidebar sidebar-5" x-show="$store.state.page.data.headings?.length > 0">
+                    <a class="sidebar-title" href="#toc"><i class="fa-solid fa-list-ol"></i> 목차 <i class="fa-solid fa-angle-right"></i></a>
+                    <ul class="sidebar-list" id="sidebar-5-list">
+                        <template x-for="item in $store.state.page.data.headings">
+                            <li id="sidebar-5-item">
+                                <a class="recent-item" :href="'#s-' + item.num">
+                                    <span class="recent-toc-num" x-text="item.num + '.'"></span> <span x-text="removeHtmlTags(item.text)"></span>
+                                </a>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+                <div style="text-align: center;">
+                    {% -config.ad_side_html %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer" id="footer">
+        <p>
+            {% -config.footer_html %}
+        </p>
+        <p>
+            Powered by <a href="https://github.com/wjdgustn/thetree" target="_blank">the tree</a>, Designed by <a href="https://daol.cc/License" target="_blank">Central</a>.
+        </p>
+    </div>
+    <div class="button-scroll">
+        <a class="button-scroll-top" href="#"><i class="fa-solid fa-angle-up"></i></a>
+        <a class="button-scroll-footer" href="#footer"><i class="fa-solid fa-angle-down"></i></a>
+    </div>
+</div>
