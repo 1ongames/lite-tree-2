@@ -1,9 +1,10 @@
 {
     "version": {
-        "master": "0.1.0",
-        "FrontEnd": null,
-        "BackEnd": "0.1.0"
+        "master": "0.2.0",
+        "FrontEnd": "0.2.0",
+        "BackEnd": "0.2.0"
     },
     "branch": "master",
-    "check_update": "true"
+    "check_update": "true",
+  "inherit": true
 }
