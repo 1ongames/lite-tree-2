@@ -39,6 +39,15 @@ export function toHTML(tokens) {
                 return `<b><i>${toHTML(token.other)}</i></b>`;
             }
             return `<b><i>${escapeHtml(token.content || '')}</i></b>`;
+        
+        case 'plum':
+            return '<a class="wiki-external-link" href="https://www.youtube.com/watch?v=s0T83BIH0m0" target="_blank">너는 얻다 달걀 부활절</a>';
+            
+        case 'underline':
+            if (token.other && Array.isArray(token.other)) {
+                return `<u>${toHTML(token.other)}</u>`;
+            }
+            return `<u>${escapeHtml(token.content || '')}</u>`;
 
         default:
             return escapeHtml(String(token.content || ''));

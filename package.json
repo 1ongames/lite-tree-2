@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "parser": "node utils/namumark/test.js"
+    "p": "node utils/namumark/test.js"
   },
   "keywords": [
     "thetree",

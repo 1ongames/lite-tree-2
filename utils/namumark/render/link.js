@@ -43,4 +43,4 @@ export function renderLink(text) {
     return tokens;
 }
 
-export const priority = 2;
+export const priority = 10;

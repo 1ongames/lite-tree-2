@@ -2,7 +2,7 @@ export function renderBr(text) {
   const tokens = [];
   let position = 0;
 
-  const brPattern = /\n/g;
+  const brPattern = /\n|\[br\]/g;
   let match;
 
   while ((match = brPattern.exec(text)) !== null) {
