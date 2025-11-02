@@ -12,8 +12,15 @@ export function toHTML(tokens) {
             const display = escapeHtml(token.display);
             return `<a href="${href}" class="wiki-link">${display}</a>`;
       
-        //case 'br':
-            //return '<br />';
+        case 'br':
+            return '<br />';
+
+        case 'bold':
+            return `<b>${escapeHtml(token.content)}</b>`;
+        
+        // TODO: <b><i>이런거</b></i> 지원
+        case 'italic':
+            return `<i>${escapeHtml(token.content)}</i>`;
         
         default:
             return escapeHtml(String(token.content || ''));
