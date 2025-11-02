@@ -8,9 +8,16 @@ export function toHTML(tokens) {
             return escapeHtml(token.content);
       
         case 'link':
-            const href = `/w/${encodeURIComponent(token.target)}`;
-            const display = escapeHtml(token.display);
-            return `<a href="${href}" class="wiki-link">${display}</a>`;
+            let href;
+            let display = escapeHtml(token.display);
+
+            if (token.isExternal == true) {
+                href = escapeHtml(token.target);
+                return `<a href="${href}" class="wiki-external-link" target="_blank" rel="noopener noreferrer">${display}</a>`;
+            } else {
+                href = `/w/${encodeURIComponent(token.target)}`;
+                return `<a href="${href}" class="wiki-link">${display}</a>`;
+            }
       
         case 'br':
             return '<br />';

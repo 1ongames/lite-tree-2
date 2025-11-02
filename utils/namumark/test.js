@@ -15,6 +15,8 @@ const testDoc = `
 
 일반 텍스트와 [[링크]]가 섞여 있습니다.
 
+[[https://hanbit.cc/]]와 같은 [[https://daol.cc|외부 링크]]도 지원합니다.
+
 ''기울임''과 '''굵음''', 그리고 '''''혼합'''''까지 테스트합니다.
 
 '''굵은 글씨 안에 ''기울임''이 있어요'''
@@ -82,6 +84,10 @@ const htmlTemplate = `<!DOCTYPE html>
         }
         .wiki-link {
             color: #0066cc;
+            text-decoration: none;
+        }
+        .wiki-external-link {
+            color: #090;
             text-decoration: none;
         }
         .wiki-link:hover {
