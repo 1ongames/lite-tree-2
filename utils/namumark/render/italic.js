@@ -29,4 +29,4 @@ export function renderItalic(text) {
     return tokens;
 }
 
-export const priority = 4;
+export const priority = 3;

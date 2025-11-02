@@ -16,12 +16,23 @@ export function toHTML(tokens) {
             return '<br />';
 
         case 'bold':
-            return `<b>${escapeHtml(token.content)}</b>`;
+            if (token.other && Array.isArray(token.other)) {
+                return `<b>${toHTML(token.other)}</b>`;
+            }
+            return `<b>${escapeHtml(token.content || '')}</b>`;
         
-        // TODO: <b><i>이런거</b></i> 지원
         case 'italic':
-            return `<i>${escapeHtml(token.content)}</i>`;
+            if (token.other && Array.isArray(token.other)) {
+                return `<i>${toHTML(token.other)}</i>`;
+            }
+            return `<i>${escapeHtml(token.content || '')}</i>`;
         
+        case 'bold_italic':
+            if (token.other && Array.isArray(token.other)) {
+                return `<b><i>${toHTML(token.other)}</i></b>`;
+            }
+            return `<b><i>${escapeHtml(token.content || '')}</i></b>`;
+
         default:
             return escapeHtml(String(token.content || ''));
         }

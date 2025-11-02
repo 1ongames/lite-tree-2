@@ -32,7 +32,8 @@ export function parse(text) {
   
   let tokens = [{ type: 'text', content: text }];
   
-  for (const renderer of rendered) {
+  for (let i = 0; i < rendered.length; i++) {
+    const renderer = rendered[i];
     const newTokens = [];
     
     for (const token of tokens) {
@@ -46,8 +47,27 @@ export function parse(text) {
     
     tokens = newTokens;
   }
+
+  tokens = processOther(tokens);
   
   return tokens;
+}
+
+function processOther(tokens) {
+  return tokens.map(token => {
+    if (token.type !== 'text' && token.content && typeof token.content === 'string') {
+      const childTokens = parse(token.content);
+      
+      if (childTokens.length === 1 && childTokens[0].type === 'text') {
+        return { ...token, content: childTokens[0].content };
+      }
+
+      const { content, ...rest } = token;
+      return { ...rest, other: childTokens };
+    }
+    
+    return token;
+  });
 }
 
 export default function namumark(text) {

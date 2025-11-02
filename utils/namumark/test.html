@@ -1,2 +1,245 @@
-<br />안녕하세요! 이것은 <b>테스트</b> 문서입니다.<br /><br /><a href="/w/FrontPage" class="wiki-link">FrontPage</a>를 방문해보세요.<br /><a href="/w/%EB%AC%B8%EC%84%9C" class="wiki-link">표시 텍스트</a>도 가능합니다.<br /><br />일반 텍스트와 <a href="/w/%EB%A7%81%ED%81%AC" class="wiki-link">링크</a>가 섞여 있습니 
-다.<br /><br /><i>기울임</i>과 <b>굵음</b>, 그리고 <b>&#039;&#039;혼합</b>&#039;&#039;까지 테스트합니다<br />
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나무마크 파서 테스트 결과</title>
+    <style>
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+        .section h2 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        pre {
+            background: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border: 1px solid #ddd;
+        }
+        .result {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .wiki-link {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .wiki-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>나무마크 파서 테스트 결과</h1>
+    
+    <div class="section">
+        <h2>1. 원본 텍스트</h2>
+        <pre>
+안녕하세요! 이것은 '''테스트''' 문서입니다.
+
+[[FrontPage]]를 방문해보세요.
+[[문서|표시 텍스트]]도 가능합니다.
+
+일반 텍스트와 [[링크]]가 섞여 있습니다.
+
+''기울임''과 '''굵음''', 그리고 '''''혼합'''''까지 테스트합니다.
+
+'''굵은 글씨 안에 ''기울임''이 있어요'''
+
+''기울임 안에 '''굵음'''도 가능해요''
+
+'''바깥 굵음 ''중간 기울임'' 다시 굵음'''
+</pre>
+    </div>
+    
+    <div class="section">
+        <h2>2. 파싱 토큰</h2>
+        <pre>[
+  {
+    "type": "br"
+  },
+  {
+    "type": "text",
+    "content": "안녕하세요! 이것은 "
+  },
+  {
+    "type": "bold",
+    "content": "테스트"
+  },
+  {
+    "type": "text",
+    "content": " 문서입니다."
+  },
+  {
+    "type": "br"
+  },
+  {
+    "type": "br"
+  },
+  {
+    "type": "link",
+    "target": "FrontPage",
+    "display": "FrontPage"
+  },
+  {
+    "type": "text",
+    "content": "를 방문해보세요."
+  },
+  {
+    "type": "br"
+  },
+  {
+    "type": "link",
+    "target": "문서",
+    "display": "표시 텍스트"
+  },
+  {
+    "type": "text",
+    "content": "도 가능합니다."
+  },
+  {
+    "type": "br"
+  },
+  {
+    "type": "br"
+  },
+  {
+    "type": "text",
+    "content": "일반 텍스트와 "
+  },
+  {
+    "type": "link",
+    "target": "링크",
+    "display": "링크"
+  },
+  {
+    "type": "text",
+    "content": "가 섞여 있습니다."
+  },
+  {
+    "type": "br"
+  },
+  {
+    "type": "br"
+  },
+  {
+    "type": "italic",
+    "content": "기울임"
+  },
+  {
+    "type": "text",
+    "content": "과 "
+  },
+  {
+    "type": "bold",
+    "content": "굵음"
+  },
+  {
+    "type": "text",
+    "content": ", 그리고 "
+  },
+  {
+    "type": "bold_italic",
+    "content": "혼합"
+  },
+  {
+    "type": "text",
+    "content": "까지 테스트합니다."
+  },
+  {
+    "type": "br"
+  },
+  {
+    "type": "br"
+  },
+  {
+    "type": "bold",
+    "children": [
+      {
+        "type": "text",
+        "content": "굵은 글씨 안에 "
+      },
+      {
+        "type": "italic",
+        "content": "기울임"
+      },
+      {
+        "type": "text",
+        "content": "이 있어요"
+      }
+    ]
+  },
+  {
+    "type": "br"
+  },
+  {
+    "type": "br"
+  },
+  {
+    "type": "text",
+    "content": "''기울임 안에 "
+  },
+  {
+    "type": "bold",
+    "content": "굵음"
+  },
+  {
+    "type": "text",
+    "content": "도 가능해요''"
+  },
+  {
+    "type": "br"
+  },
+  {
+    "type": "br"
+  },
+  {
+    "type": "bold",
+    "children": [
+      {
+        "type": "text",
+        "content": "바깥 굵음 "
+      },
+      {
+        "type": "italic",
+        "content": "중간 기울임"
+      },
+      {
+        "type": "text",
+        "content": " 다시 굵음"
+      }
+    ]
+  },
+  {
+    "type": "br"
+  }
+]</pre>
+    </div>
+    
+    <div class="section">
+        <h2>3. HTML 렌더링 결과</h2>
+        <div class="result">
+            <br />안녕하세요! 이것은 <b>테스트</b> 문서입니다.<br /><br /><a href="/w/FrontPage" class="wiki-link">FrontPage</a>를 방문해보세요.<br /><a href="/w/%EB%AC%B8%EC%84%9C" class="wiki-link">표시 텍스트</a>도 가능합니다.<br /><br />일반 텍스트와 <a href="/w/%EB%A7%81%ED%81%AC" class="wiki-link">링크</a>가 섞여 있습니다.<br /><br /><i>기울임</i>과 <b>굵음</b>, 그리고 <b><i>혼합</i></b>까지 테스트합니다.<br /><br /><b></b><br /><br />&#039;&#039;기울임 안에 <b>굵음</b>도 가능해요&#039;&#039;<br /><br /><b></b><br />
+        </div>
+    </div>
+</body>
+</html>
