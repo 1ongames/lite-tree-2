@@ -1,6 +1,6 @@
 export function toHTML(tokens) {
     if (!tokens || tokens.length === 0) return '';
-  
+    // ㅅㅂ 주석 없으니까 코드 못 읽겠네
     return tokens.map(token => {
         switch (token.type) {
         case 'text':
