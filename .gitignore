@@ -2,6 +2,7 @@ node_modules/
 .idea/
 database/*.db
 .env
+utils/namumark/test.html
 publicConfig.json
 serverConfig.json
 stringConfig.json
