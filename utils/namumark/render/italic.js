@@ -2,7 +2,7 @@ export function renderItalic(text) {
     const tokens = [];
     let position = 0;
 
-    const italicPattern = /\'\'(.*?)\'\'/g;
+    const italicPattern = /''(.*)''/g;
     let match;
 
     while ((match = italicPattern.exec(text)) !== null) {
@@ -12,6 +12,7 @@ export function renderItalic(text) {
                 content: text.slice(position, match.index)
             });
         }
+
         tokens.push({
             type: 'italic',
             content: match[1]

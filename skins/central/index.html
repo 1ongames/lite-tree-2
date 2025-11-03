@@ -162,12 +162,12 @@
                     </div>
                 </div>
                 <div class="wide-ui">
-                    {% -include('./layouts/searchForm') %}
+                    {% include('./layouts/searchForm') %}
                 </div>
             </div>
         </div>
         <div class="phone-ui">
-            {% -include('./layouts/searchForm') %}
+            {% include('./layouts/searchForm') %}
         </div>
     </div>
     <div class="main-root" :class="{ 'main-side-right': $store.state.localConfig['central.sidebar'] === 'right' }">
@@ -176,7 +176,7 @@
                 <div class="header-top-notice-bg">
                     <div class="header-top-notice">
                         <i class="fa-solid fa-bullhorn"></i>
-                        {% -config.sitenotice %}
+                        {% config.sitenotice %}
                     </div>
                 </div>
             {% } %}
@@ -233,23 +233,23 @@
                             <div class="last-edit">
                                 {% const timeTag = getFullDateTag(page.data.date); %}
                                 {% if(page.data.rev) {% }
-                                    해당 리비전 수정 시각: {% -timeTag %}</li>
+                                    해당 리비전 수정 시각: {% timeTag %}</li>
                                 {% } else {% }
-                                    최근 수정 시각: {% -timeTag %}</li>
+                                    최근 수정 시각: {% timeTag %}</li>
                                 {% } %}
                             </div>
                         {% } %}
                     </div>
-                    {% -include('./layouts/contentTool') %}
+                    {% include('./layouts/contentTool') %}
                 </div>
                 <div style="text-align: center;">
-                    {% -config.ad_top_html %}
+                    {% config.ad_top_html %}
                 </div>
                 {% if(page.data.edit_acl_message) {% }
                     <div class="wiki_notice wiki_notice-x" id="red_bg" x-cloak x-show="$store.skin.isShowACLMessage">
                         <div>
                             <div class="wiki_notice_cate" id="red">권한 부족</div>
-                                <span>{% -page.data.edit_acl_message %}</span>
+                                <span>{% page.data.edit_acl_message %}</span>
                                 {% if(requestable) {% }<span>{% if(page.data.edit_acl_message.includes('<br>')) {% }<br>{% } %} 대신 <a href="{% =doc_action_link(page.data.document, 'new_edit_request') %}">편집 요청</a>을 생성할 수 있습니다.</span>{% } %}
                         </div>
                         <div>
@@ -281,42 +281,14 @@
                 {% } %}
                 <div id="content-style" class="content-style">
                     <div id="content-body" class="content-body" :class="$store.state.currentTheme === 'dark' ? 'thetree-dark-mode' : 'thetree-white-mode'">
-                        {% -contentHtml %}
+                        {% contentHtml %}
                         {% if(page.viewName === 'wiki' && page.data.date) {% }
                             <div class="cc-info">
-                                {% -copyright_text %}
+                                {% copyright_text %}
                             </div>
                         {% } %}
                     </div>
                 </div>
-                {% if(page.viewName === 'license') {% }
-                    <div class="license-central">
-                        <h2>Central</h2>
-                        <p>v4.2</p>
-                        <h3>라이선스</h3>
-                        <p>© <a href="https://gwangtori.com">Gwangtori</a>, <a href="https://github.com/wjdgustn">hyonsu</a>. all rights reserved.</p>
-                        <ul>
-                            <li>이 스킨에서 별도로 명시하지 않은 모든 부분은 Gwangtori가 모든 권리를 보유합니다.</li>
-                            <li>오픈 소스가 아닌 디자인을 무단으로 도용하는 행동은 저작권 위반이며 법적 책임을 물 수 있습니다.</li>
-                            <li>사용을 허가되지 않은 위키에서 사용은 절대 금합니다. (<a href="https://daol.cc/w/위키/스킨/Central#사용%20위키">허가된 위키 확인하기</a>)</li>
-                            <li>Git에 접근할 수 있는 권한을 소유하고 있다고 해도 파생 버전을 만드는 것은 금지입니다.</li>
-                        </ul>
-                        <h3>기여자 목록</h3>
-                        <ul>
-                            <li><a href="https://github.com/Gwangtori">Gwangtori</a> (me@gwangtori.com)</li>
-                            <li><a href="https://github.com/wjdgustn">hyonsu</a> (admin@hyonsu.com)</li>
-                            <li><a href="https://github.com/Astro-CQM">ASTRO</a> (saturn@astro.win)</li>
-                            <li><a href="https://github.com/kepitrion">Kepitrion</a> (kepitrion@proton.me)</li>
-                        </ul>
-                        <h3>사용된 외부 프로젝트</h3>
-                        <ul>
-                            <li><a href="https://github.com/FortAwesome/Font-Awesome">Font Awesome</a></li>
-                            <li><a href="https://github.com/orioncactus/pretendard">Pretendard</a></li>
-                            <li><a href="https://shinyks.com/2024/04/javascript/자바스크립트-드롭다운-메뉴-목록-만들기/">자바스크립트 드롭다운 메뉴 목록 만들기</a></li>
-                            <li><a href="https://github.com/openNAMU/openNAMU/tree/beta/views/ringo">Ringo</a></li>
-                        </ul>
-                    </div>
-                {% } %}
             </div>
         </div>
         <div class="main-side" id="sidebar" :class="{ 'main-side-hide': $store.state.localConfig['central.sidebar'] === 'hide'}">
@@ -390,14 +362,14 @@
                     </ul>
                 </div>
                 <div style="text-align: center;">
-                    {% -config.ad_side_html %}
+                    {% config.ad_side_html %}
                 </div>
             </div>
         </div>
     </div>
     <div class="footer" id="footer">
         <p>
-            {% -config.footer_html %}
+            {% config.footer_html %}
         </p>
         <p>
             Powered by <a href="https://github.com/wjdgustn/thetree" target="_blank">the tree</a>, Designed by <a href="https://daol.cc/License" target="_blank">Central</a>.
