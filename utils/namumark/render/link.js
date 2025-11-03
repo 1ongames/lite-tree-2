@@ -2,11 +2,11 @@ export function renderLink(text) {
     const tokens = [];
     let position = 0;
   
+    // 중첩된 대괄호도 처리할 수 있도록 개선된 패턴
     const linkPattern = /\[\[([^\]]+)\]\]/g;
     let match;
 
     const external = /^(https?:\/\/|http:|ftp:\/\/|ftps:\/\/|file:\/\/)/i;
-    let isExternal = false;
 
     while ((match = linkPattern.exec(text)) !== null) {
         if (match.index > position) {
@@ -16,18 +16,18 @@ export function renderLink(text) {
             });
         }
     
-        if (external.test(match[1].trim())) {
-            isExternal = true;
-        }
-    
         const linkText = match[1];
-        const parts = linkText.split('|');
+        const pipeIndex = linkText.indexOf('|');
+        const target = pipeIndex !== -1 ? linkText.substring(0, pipeIndex).trim() : linkText.trim();
+        const display = pipeIndex !== -1 ? linkText.substring(pipeIndex + 1).trim() : target;
+        
+        const isExternal = external.test(target);
     
         tokens.push({
             type: 'link',
-            target: parts[0].trim(),
+            target: target,
             isExternal: isExternal,
-            display: parts[1] ? parts[1].trim() : parts[0].trim()
+            content: display 
         });
     
         position = match.index + match[0].length;
@@ -42,5 +42,4 @@ export function renderLink(text) {
   
     return tokens;
 }
-
-export const priority = 10;
+export const priority = 3;  // 가장 먼저 처리

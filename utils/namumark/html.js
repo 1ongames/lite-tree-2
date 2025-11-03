@@ -9,7 +9,15 @@ export function toHTML(tokens) {
       
         case 'link':
             let href;
-            let display = escapeHtml(token.display);
+            let display;
+
+            if (token.other && Array.isArray(token.other)) {
+                display = toHTML(token.other);
+            } else if (token.content) {
+                display = escapeHtml(token.content);
+            } else {
+                display = escapeHtml(token.target);
+            }
 
             if (token.isExternal == true) {
                 href = escapeHtml(token.target);

@@ -54,23 +54,27 @@ await loadRenderer();
 export function parse(text) {
   if (!text) return [];
   
+  text = text.trim();
+  
   let tokens = [{ type: 'text', content: text }];
   
   for (let i = 0; i < rendered.length; i++) {
     const renderer = rendered[i];
+    
     const newTokens = [];
-    
-    for (const token of tokens) {
-      if (token.type === 'text') {
-        const renderedTokens = renderer.render(token.content);
-        newTokens.push(...renderedTokens);
-      } else {
-        newTokens.push(token);
+      
+      for (const token of tokens) {
+        if (token.type === 'text') {
+          const renderedTokens = renderer.render(token.content);
+          newTokens.push(...renderedTokens);
+        } else {
+          newTokens.push(token);
+        }
       }
+      
+      tokens = newTokens;
     }
-    
-    tokens = newTokens;
-  }
+
 
   tokens = processOther(tokens);
   

@@ -2,7 +2,7 @@ export function renderBold(text) {
     const tokens = [];
     let position = 0;
 
-    const boldPattern = /\'\'\'(.*?)\'\'\'/g;
+    const boldPattern = /'''(.*)'''/g;
     let match;
 
     while ((match = boldPattern.exec(text)) !== null) {
@@ -29,4 +29,4 @@ export function renderBold(text) {
     return tokens;
 }
 
-export const priority = 3;
+export const priority = 4;

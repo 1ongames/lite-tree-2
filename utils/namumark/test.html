@@ -58,27 +58,12 @@
     <div class="section">
         <h2>1. 원본 텍스트</h2>
         <pre>
-안녕하세요! 이것은 '''테스트''' 문서입니다.
-
-[[FrontPage]]를 방문해보세요.
-[[문서|표시 텍스트]]도 가능합니다.[br][br]그리고 제 대가리는 점점 터져갑니다
-
-일반 텍스트와 [[링크]]가 섞여 있습니다.
-
-[[https://hanbit.cc/]]와 같은 [[https://daol.cc|외부 링크]]도 지원합니다.
-
-''[[이런것]]도 [[ㅁㄴㅇㄹ|처리]]가 잘 되나?''
-'''[[이것]]도 [[ㅁㄴㅇㄹ|처리]]가 잘 되나?'''
-
-__이런건__ [plum] 처리되는듯
-
-''기울임''과 '''굵음''', 그리고 '''''혼합'''''까지 테스트합니다.
-
-'''굵은 글씨 안에 ''기울임''이 있어요'''
-
-''기울임 안에 '''굵음'''도 가능해요''
-
-'''바깥 굵음 ''중간 기울임'' 다시 굵음'''
+'''[[링크 테스트]]'''
+'''[[https://daol.cc|외부링크 테스트]]'''
+'''[[아마도|''이런거'']]'''
+[[링크|'''이런거''']]
+[[링크|''저런거'']]
+''[[링크|'''이런거''']]''
 </pre>
     </div>
     
@@ -86,240 +71,83 @@ __이런건__ [plum] 처리되는듯
         <h2>2. 파싱 토큰</h2>
         <pre>[
   {
-    "type": "br"
-  },
-  {
     "type": "text",
-    "content": "안녕하세요! 이것은 "
-  },
-  {
-    "type": "bold",
-    "content": "테스트"
-  },
-  {
-    "type": "text",
-    "content": " 문서입니다."
-  },
-  {
-    "type": "br"
-  },
-  {
-    "type": "br"
+    "content": "'''"
   },
   {
     "type": "link",
-    "target": "FrontPage",
+    "target": "링크 테스트",
     "isExternal": false,
-    "display": "FrontPage"
+    "content": "링크 테스트"
   },
   {
     "type": "text",
-    "content": "를 방문해보세요."
-  },
-  {
-    "type": "br"
-  },
-  {
-    "type": "link",
-    "target": "문서",
-    "isExternal": false,
-    "display": "표시 텍스트"
-  },
-  {
-    "type": "text",
-    "content": "도 가능합니다."
-  },
-  {
-    "type": "br"
+    "content": "'''"
   },
   {
     "type": "br"
   },
   {
     "type": "text",
-    "content": "그리고 제 대가리는 점점 터져갑니다"
-  },
-  {
-    "type": "br"
-  },
-  {
-    "type": "br"
-  },
-  {
-    "type": "text",
-    "content": "일반 텍스트와 "
-  },
-  {
-    "type": "link",
-    "target": "링크",
-    "isExternal": false,
-    "display": "링크"
-  },
-  {
-    "type": "text",
-    "content": "가 섞여 있습니다."
-  },
-  {
-    "type": "br"
-  },
-  {
-    "type": "br"
-  },
-  {
-    "type": "link",
-    "target": "https://hanbit.cc/",
-    "isExternal": true,
-    "display": "https://hanbit.cc/"
-  },
-  {
-    "type": "text",
-    "content": "와 같은 "
+    "content": "'''"
   },
   {
     "type": "link",
     "target": "https://daol.cc",
     "isExternal": true,
-    "display": "외부 링크"
+    "content": "외부링크 테스트"
   },
   {
     "type": "text",
-    "content": "도 지원합니다."
+    "content": "'''"
   },
   {
     "type": "br"
   },
   {
-    "type": "br"
+    "type": "text",
+    "content": "'''"
   },
   {
-    "type": "italic",
+    "type": "link",
+    "target": "아마도",
+    "isExternal": false,
     "other": [
       {
-        "type": "link",
-        "target": "이런것",
-        "isExternal": false,
-        "display": "이런것"
-      },
-      {
-        "type": "text",
-        "content": "도 "
-      },
-      {
-        "type": "link",
-        "target": "ㅁㄴㅇㄹ",
-        "isExternal": false,
-        "display": "처리"
-      },
-      {
-        "type": "text",
-        "content": "가 잘 되나?"
+        "type": "italic",
+        "content": "이런거"
       }
     ]
   },
   {
+    "type": "text",
+    "content": "'''"
+  },
+  {
     "type": "br"
   },
   {
-    "type": "bold",
+    "type": "link",
+    "target": "링크",
+    "isExternal": false,
     "other": [
-      {
-        "type": "link",
-        "target": "이것",
-        "isExternal": false,
-        "display": "이것"
-      },
-      {
-        "type": "text",
-        "content": "도 "
-      },
-      {
-        "type": "link",
-        "target": "ㅁㄴㅇㄹ",
-        "isExternal": false,
-        "display": "처리"
-      },
-      {
-        "type": "text",
-        "content": "가 잘 되나?"
-      }
-    ]
-  },
-  {
-    "type": "br"
-  },
-  {
-    "type": "br"
-  },
-  {
-    "type": "underline",
-    "content": "이런건"
-  },
-  {
-    "type": "text",
-    "content": " "
-  },
-  {
-    "type": "plum"
-  },
-  {
-    "type": "text",
-    "content": " 처리되는듯"
-  },
-  {
-    "type": "br"
-  },
-  {
-    "type": "br"
-  },
-  {
-    "type": "italic",
-    "content": "기울임"
-  },
-  {
-    "type": "text",
-    "content": "과 "
-  },
-  {
-    "type": "bold",
-    "other": [
-      {
-        "type": "text",
-        "content": "굵음"
-      },
       {
         "type": "bold",
-        "content": ", 그리고 ''"
-      },
-      {
-        "type": "text",
-        "content": "혼합''"
+        "content": "이런거"
       }
     ]
   },
   {
-    "type": "text",
-    "content": "까지 테스트합니다."
-  },
-  {
     "type": "br"
   },
   {
-    "type": "br"
-  },
-  {
-    "type": "bold",
+    "type": "link",
+    "target": "링크",
+    "isExternal": false,
     "other": [
       {
-        "type": "text",
-        "content": "굵은 글씨 안에 "
-      },
-      {
         "type": "italic",
-        "content": "기울임"
-      },
-      {
-        "type": "text",
-        "content": "이 있어요"
+        "content": "저런거"
       }
     ]
   },
@@ -327,45 +155,23 @@ __이런건__ [plum] 처리되는듯
     "type": "br"
   },
   {
-    "type": "br"
-  },
-  {
     "type": "text",
-    "content": "''기울임 안에 "
+    "content": "''"
   },
   {
-    "type": "bold",
-    "content": "굵음"
-  },
-  {
-    "type": "text",
-    "content": "도 가능해요''"
-  },
-  {
-    "type": "br"
-  },
-  {
-    "type": "br"
-  },
-  {
-    "type": "bold",
+    "type": "link",
+    "target": "링크",
+    "isExternal": false,
     "other": [
       {
-        "type": "text",
-        "content": "바깥 굵음 "
-      },
-      {
-        "type": "italic",
-        "content": "중간 기울임"
-      },
-      {
-        "type": "text",
-        "content": " 다시 굵음"
+        "type": "bold",
+        "content": "이런거"
       }
     ]
   },
   {
-    "type": "br"
+    "type": "text",
+    "content": "''"
   }
 ]</pre>
     </div>
@@ -373,7 +179,7 @@ __이런건__ [plum] 처리되는듯
     <div class="section">
         <h2>3. HTML 렌더링 결과</h2>
         <div class="result">
-            <br />안녕하세요! 이것은 <b>테스트</b> 문서입니다.<br /><br /><a href="/w/FrontPage" class="wiki-link">FrontPage</a>를 방문해보세요.<br /><a href="/w/%EB%AC%B8%EC%84%9C" class="wiki-link">표시 텍스트</a>도 가능합니다.<br /><br />그리고 제 대가리는 점점 터져갑니다<br /><br />일반 텍스트와 <a href="/w/%EB%A7%81%ED%81%AC" class="wiki-link">링크</a>가 섞여 있습니다.<br /><br /><a href="https://hanbit.cc/" class="wiki-external-link" target="_blank" rel="noopener noreferrer">https://hanbit.cc/</a>와 같은 <a href="https://daol.cc" class="wiki-external-link" target="_blank" rel="noopener noreferrer">외부 링크</a>도 지원합니다.<br /><br /><i><a href="/w/%EC%9D%B4%EB%9F%B0%EA%B2%83" class="wiki-link">이런것</a>도 <a href="/w/%E3%85%81%E3%84%B4%E3%85%87%E3%84%B9" class="wiki-link">처리</a>가 잘 되나?</i><br /><b><a href="/w/%EC%9D%B4%EA%B2%83" class="wiki-link">이것</a>도 <a href="/w/%E3%85%81%E3%84%B4%E3%85%87%E3%84%B9" class="wiki-link">처리</a>가 잘 되나?</b><br /><br /><u>이런건</u> <a class="wiki-external-link" href="https://www.youtube.com/watch?v=s0T83BIH0m0" target="_blank">너는 얻다 달걀 부활절</a> 처리되는듯<br /><br /><i>기울임</i>과 <b>굵음<b>, 그리고 &#039;&#039;</b>혼합&#039;&#039;</b>까지 테스트합니다.<br /><br /><b>굵은 글씨 안에 <i>기울임</i>이 있어요</b><br /><br />&#039;&#039;기울임 안에 <b>굵음</b>도 가능해요&#039;&#039;<br /><br /><b>바깥 굵음 <i>중간 기울임</i> 다시 굵음</b><br />
+            &#039;&#039;&#039;<a href="/w/%EB%A7%81%ED%81%AC%20%ED%85%8C%EC%8A%A4%ED%8A%B8" class="wiki-link">링크 테스트</a>&#039;&#039;&#039;<br />&#039;&#039;&#039;<a href="https://daol.cc" class="wiki-external-link" target="_blank" rel="noopener noreferrer">외부링크 테스트</a>&#039;&#039;&#039;<br />&#039;&#039;&#039;<a href="/w/%EC%95%84%EB%A7%88%EB%8F%84" class="wiki-link"><i>이런거</i></a>&#039;&#039;&#039;<br /><a href="/w/%EB%A7%81%ED%81%AC" class="wiki-link"><b>이런거</b></a><br /><a href="/w/%EB%A7%81%ED%81%AC" class="wiki-link"><i>저런거</i></a><br />&#039;&#039;<a href="/w/%EB%A7%81%ED%81%AC" class="wiki-link"><b>이런거</b></a>&#039;&#039;
         </div>
     </div>
 </body>
