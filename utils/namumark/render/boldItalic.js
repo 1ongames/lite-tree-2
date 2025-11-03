@@ -1,4 +1,4 @@
-export function renderBoldItalic(text) {
+/* export function renderBoldItalic(text) {
     const tokens = [];
     let position = 0;
   
@@ -32,3 +32,4 @@ export function renderBoldItalic(text) {
 }
 
 export const priority = 2;
+*/
